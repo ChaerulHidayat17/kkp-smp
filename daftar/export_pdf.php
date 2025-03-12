@@ -11,10 +11,22 @@ use Dompdf\Options;
 // Validasi ID
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id <= 0) {
-    die("ID tidak valid!");
+    die("ID tidak valid! Silakan periksa kembali.");
 }
 
-// Ambil data berdasarkan ID
+// Cek ID dalam database
+$query_check = "SELECT COUNT(*) as count FROM peserta_didik WHERE id = ?";
+$stmt_check = $conn->prepare($query_check);
+$stmt_check->bind_param("i", $id);
+$stmt_check->execute();
+$result_check = $stmt_check->get_result();
+$row_check = $result_check->fetch_assoc();
+
+if ($row_check['count'] == 0) {
+    die("Data dengan ID: $id tidak ditemukan! Periksa kembali.");
+}
+
+// Ambil data peserta didik
 $query = "SELECT * FROM peserta_didik WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $id);
@@ -23,8 +35,16 @@ $result = $stmt->get_result();
 $data = $result->fetch_assoc();
 
 if (!$data) {
-    die("Data tidak ditemukan!");
+    die("Data peserta didik tidak ditemukan!");
 }
+
+// Ambil data orang tua
+$query_ortu = "SELECT * FROM orang_tua WHERE peserta_id = ?";
+$stmt_ortu = $conn->prepare($query_ortu);
+$stmt_ortu->bind_param("i", $id);
+$stmt_ortu->execute();
+$result_ortu = $stmt_ortu->get_result();
+$data_ortu = $result_ortu->fetch_assoc();
 
 // Konfigurasi Dompdf
 $options = new Options();
@@ -38,7 +58,7 @@ function cleanData($value) {
     return htmlspecialchars($value ?? '-', ENT_QUOTES, 'UTF-8');
 }
 
-// HTML untuk PDF dengan tabel
+// **Halaman 1 - Data Peserta Didik**
 $html = "
 <!DOCTYPE html>
 <html lang='id'>
@@ -53,6 +73,7 @@ $html = "
         th, td { padding: 10px; border: 1px solid #333; text-align: left; }
         th { background-color: #f2f2f2; font-weight: bold; }
         .label { font-weight: bold; }
+        .page-break { page-break-before: always; }
     </style>
 </head>
 <body>
@@ -77,6 +98,26 @@ $html = "
             <tr><th class='label'>Nama Tertera di KIP</th><td>" . cleanData($data['nama_kip']) . "</td></tr>
         </table>
     </div>
+
+    <div class='page-break'></div>
+
+    <div class='container'>
+        <h2>Data Orang Tua</h2>
+        <table>
+            <tr><th class='label'>Nama Ayah</th><td>" . cleanData($data_ortu['nama_ayah'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Tahun Lahir Ayah</th><td>" . cleanData($data_ortu['tahun_lahir_ayah'] ?? '-') . "</td></tr>
+            <tr><th class='label'>NIK Ayah</th><td>" . cleanData($data_ortu['nik_ayah'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Pekerjaan Ayah</th><td>" . cleanData($data_ortu['pekerjaan_ayah'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Pendidikan Ayah</th><td>" . cleanData($data_ortu['pendidikan_ayah'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Penghasilan Ayah</th><td>" . cleanData($data_ortu['penghasilan_ayah'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Nama Ibu</th><td>" . cleanData($data_ortu['nama_ibu'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Tahun Lahir Ibu</th><td>" . cleanData($data_ortu['tahun_lahir_ibu'] ?? '-') . "</td></tr>
+            <tr><th class='label'>NIK Ibu</th><td>" . cleanData($data_ortu['nik_ibu'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Pekerjaan Ibu</th><td>" . cleanData($data_ortu['pekerjaan_ibu'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Pendidikan Ibu</th><td>" . cleanData($data_ortu['pendidikan_ibu'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Penghasilan Ibu</th><td>" . cleanData($data_ortu['penghasilan_ibu'] ?? '-') . "</td></tr>
+        </table>
+    </div>
 </body>
 </html>
 ";
@@ -85,21 +126,10 @@ $html = "
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
+$dompdf->stream("Detail_Peserta_Didik_$id.pdf", ["Attachment" => true]);
 
-// Simpan PDF ke file sementara
-$filePath = sys_get_temp_dir() . "/Detail_Peserta_Didik_{$data['id']}.pdf";
-file_put_contents($filePath, $dompdf->output());
-
-// Header untuk download
-header('Content-Type: application/pdf');
-header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
-header('Content-Length: ' . filesize($filePath));
-readfile($filePath);
-
-// Hapus file sementara setelah dikirim
-unlink($filePath);
-
-// Tutup koneksi database
 $stmt->close();
+$stmt_check->close();
+$stmt_ortu->close();
 $conn->close();
 ?>

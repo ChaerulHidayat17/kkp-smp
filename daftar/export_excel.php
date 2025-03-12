@@ -13,7 +13,9 @@ $headers = [
     'No', 'Nama Lengkap', 'NISN', 'Jenis Kelamin', 'No Ijazah', 'No Ujian', 'No KK', 'NIK',
     'Sekolah Asal', 'Tempat Lahir', 'Tanggal Lahir', 'Agama', 'Alamat', 'Kelurahan',
     'Kecamatan', 'Kabupaten', 'Provinsi', 'Kode Pos', 'Alat Transportasi', 'No HP',
-    'No KIP', 'Nama KIP'
+    'No KIP', 'Nama KIP',
+    'Nama Ayah', 'NIK Ayah', 'Pekerjaan Ayah', 'Penghasilan Ayah',
+    'Nama Ibu', 'NIK Ibu', 'Pekerjaan Ibu', 'Penghasilan Ibu'
 ];
 
 // Set header ke dalam Excel
@@ -23,8 +25,12 @@ foreach ($headers as $header) {
     $col++;
 }
 
-// Ambil data dari database
-$query = "SELECT * FROM peserta_didik";
+// Ambil data dari database dengan join ke tabel orang_tua
+$query = "SELECT pd.*, ort.nama_ayah, ort.nik_ayah, ort.pekerjaan_ayah, ort.penghasilan_ayah, 
+                 ort.nama_ibu, ort.nik_ibu, ort.pekerjaan_ibu, ort.penghasilan_ibu
+          FROM peserta_didik pd
+          LEFT JOIN orang_tua ort ON pd.id = ort.peserta_id";
+
 $result = mysqli_query($conn, $query);
 
 $rowIndex = 2; 
@@ -53,6 +59,17 @@ while ($row = mysqli_fetch_assoc($result)) {
     $sheet->setCellValue($col++ . $rowIndex, $row['no_hp']);
     $sheet->setCellValue($col++ . $rowIndex, $row['no_kip']);
     $sheet->setCellValue($col++ . $rowIndex, $row['nama_kip']);
+
+    // Data Orang Tua
+    $sheet->setCellValue($col++ . $rowIndex, $row['nama_ayah']);
+    $sheet->setCellValue($col++ . $rowIndex, $row['nik_ayah']);
+    $sheet->setCellValue($col++ . $rowIndex, $row['pekerjaan_ayah']);
+    $sheet->setCellValue($col++ . $rowIndex, $row['penghasilan_ayah']);
+    $sheet->setCellValue($col++ . $rowIndex, $row['nama_ibu']);
+    $sheet->setCellValue($col++ . $rowIndex, $row['nik_ibu']);
+    $sheet->setCellValue($col++ . $rowIndex, $row['pekerjaan_ibu']);
+    $sheet->setCellValue($col++ . $rowIndex, $row['penghasilan_ibu']);
+
     $rowIndex++;
 }
 
@@ -67,4 +84,3 @@ header('Cache-Control: max-age=0');
 
 $writer->save('php://output');
 exit;
-?>
