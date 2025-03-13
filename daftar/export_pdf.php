@@ -46,6 +46,22 @@ $stmt_ortu->execute();
 $result_ortu = $stmt_ortu->get_result();
 $data_ortu = $result_ortu->fetch_assoc();
 
+// Ambil data wali
+$query_wali = "SELECT * FROM wali WHERE peserta_id = ?";
+$stmt_wali = $conn->prepare($query_wali);
+$stmt_wali->bind_param("i", $id);
+$stmt_wali->execute();
+$result_wali = $stmt_wali->get_result();
+$data_wali = $result_wali->fetch_assoc();
+
+// Ambil data dari periodik
+$query_periodik = "SELECT * FROM data_periodik WHERE peserta_id = ?";
+$stmt_periodik = $conn->prepare($query_periodik);
+$stmt_periodik->bind_param("i", $id);
+$stmt_periodik->execute();
+$result_periodik = $stmt_periodik->get_result();
+$data_periodik = $result_periodik->fetch_assoc();
+
 // Konfigurasi Dompdf
 $options = new Options();
 $options->set('defaultFont', 'Arial');
@@ -92,10 +108,6 @@ $html = "
             <tr><th class='label'>Tanggal Lahir</th><td>" . cleanData($data['tanggal_lahir']) . "</td></tr>
             <tr><th class='label'>Agama</th><td>" . cleanData($data['agama']) . "</td></tr>
             <tr><th class='label'>Alamat</th><td>" . cleanData($data['alamat'] . ', ' . $data['kelurahan'] . ', ' . $data['kecamatan'] . ', ' . $data['kabupaten'] . ', ' . $data['provinsi']) . "</td></tr>
-            <tr><th class='label'>Alat Transportasi</th><td>" . cleanData($data['alat_transportasi']) . "</td></tr>
-            <tr><th class='label'>No HP</th><td>" . cleanData($data['no_hp']) . "</td></tr>
-            <tr><th class='label'>No KIP</th><td>" . cleanData($data['no_kip']) . "</td></tr>
-            <tr><th class='label'>Nama Tertera di KIP</th><td>" . cleanData($data['nama_kip']) . "</td></tr>
         </table>
     </div>
 
@@ -105,17 +117,45 @@ $html = "
         <h2>Data Orang Tua</h2>
         <table>
             <tr><th class='label'>Nama Ayah</th><td>" . cleanData($data_ortu['nama_ayah'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Nik  Ayah</th><td>" . cleanData($data_ortu['nik_ayah'] ?? '-') . "</td></tr>
             <tr><th class='label'>Tahun Lahir Ayah</th><td>" . cleanData($data_ortu['tahun_lahir_ayah'] ?? '-') . "</td></tr>
-            <tr><th class='label'>NIK Ayah</th><td>" . cleanData($data_ortu['nik_ayah'] ?? '-') . "</td></tr>
             <tr><th class='label'>Pekerjaan Ayah</th><td>" . cleanData($data_ortu['pekerjaan_ayah'] ?? '-') . "</td></tr>
-            <tr><th class='label'>Pendidikan Ayah</th><td>" . cleanData($data_ortu['pendidikan_ayah'] ?? '-') . "</td></tr>
-            <tr><th class='label'>Penghasilan Ayah</th><td>" . cleanData($data_ortu['penghasilan_ayah'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Pendidikan Terakhir Ayah</th><td>" . cleanData($data_ortu['pendidikan_ayah'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Penghasilan Bulanan Ayah</th><td>" . cleanData($data_ortu['penghasilan_ayah'] ?? '-') . "</td></tr>
             <tr><th class='label'>Nama Ibu</th><td>" . cleanData($data_ortu['nama_ibu'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Nik  Ibu</th><td>" . cleanData($data_ortu['nik_ibu'] ?? '-') . "</td></tr>
             <tr><th class='label'>Tahun Lahir Ibu</th><td>" . cleanData($data_ortu['tahun_lahir_ibu'] ?? '-') . "</td></tr>
-            <tr><th class='label'>NIK Ibu</th><td>" . cleanData($data_ortu['nik_ibu'] ?? '-') . "</td></tr>
             <tr><th class='label'>Pekerjaan Ibu</th><td>" . cleanData($data_ortu['pekerjaan_ibu'] ?? '-') . "</td></tr>
-            <tr><th class='label'>Pendidikan Ibu</th><td>" . cleanData($data_ortu['pendidikan_ibu'] ?? '-') . "</td></tr>
-            <tr><th class='label'>Penghasilan Ibu</th><td>" . cleanData($data_ortu['penghasilan_ibu'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Pendidikan Terakhir Ibu</th><td>" . cleanData($data_ortu['pendidikan_ibu'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Penghasilan Bulanan Ibu</th><td>" . cleanData($data_ortu['penghasilan_ibu'] ?? '-') . "</td></tr>
+        </table>
+    </div>
+
+    <div class='page-break'></div>
+
+    <div class='container'>
+        <h2>Data Wali</h2>
+        <table>
+            <tr><th class='label'>Nama Wali</th><td>" . cleanData($data_wali['nama_wali'] ?? '-') . "</td></tr>
+            <tr><th class='label'>NIK Wali</th><td>" . cleanData($data_wali['nik_wali'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Pekerjaan Wali</th><td>" . cleanData($data_wali['pekerjaan_wali'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Pendidikan Wali</th><td>" . cleanData($data_wali['pendidikan_wali'] ?? '-') . "</td></tr>
+            <tr><th class='label'>Penghasilan Wali</th><td>" . cleanData($data_wali['penghasilan_wali'] ?? '-') . "</td></tr>
+        </table>
+    </div>
+
+    <div class='page-break'></div>
+    
+     <div class='container'>
+        <h2>Data Periodik</h2>
+        <table>
+            <tr><th>Tinggi Badan</th><td>" . cleanData($data_periodik['tinggi_badan'] ?? '-') . " cm</td></tr>
+            <tr><th>Berat Badan</th><td>" . cleanData($data_periodik['berat_badan'] ?? '-') . " kg</td></tr>
+            <tr><th>Jarak Tempuh</th><td>" . cleanData($data_periodik['jarak_tempuh_km'] ?? '-') . " km</td></tr>
+            <tr><th>Waktu Tempuh</th><td>" . cleanData($data_periodik['waktu_tempuh_menit'] ?? '-') . " menit</td></tr>
+            <tr><th>Hobi</th><td>" . cleanData($data_periodik['hobi'] ?? '-') . "</td></tr>
+            <tr><th>Cita Cita</th><td>" . cleanData($data_periodik['cita_cita'] ?? '-') . "</td></tr>
+            <tr><th>Cita Cita</th><td>" . cleanData($data_periodik['jumlah_saudara_kandung'] ?? '-') . "</td></tr>
         </table>
     </div>
 </body>
@@ -131,5 +171,6 @@ $dompdf->stream("Detail_Peserta_Didik_$id.pdf", ["Attachment" => true]);
 $stmt->close();
 $stmt_check->close();
 $stmt_ortu->close();
+$stmt_wali->close();
 $conn->close();
 ?>

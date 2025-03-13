@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body class="bg-gray-100">
     <div class="max-w-4xl mx-auto p-6 bg-white shadow-md mt-10 rounded">
-        <h2 class="text-2xl font-bold text-center mb-6 text-gray-700">Form Pendaftaran Peserta Didik</h2>
+        <h2 class="text-2xl font-bold text-center mb-6 text-gray-700">Identitas Peserta Didik</h2>
 
         <?php if (isset($message)): ?>
             <div class="p-4 mb-4 text-red-800 bg-red-200 rounded">
@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="text-center">
-                <button type="submit" class="mt-6 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-300">Daftar</button>
+                <button type="submit" class="mt-6 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-300">Selanjutnya ⏩</button>
             </div>
         </form>
     </div>

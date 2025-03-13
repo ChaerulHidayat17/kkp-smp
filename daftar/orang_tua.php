@@ -11,7 +11,6 @@ if ($peserta_id == 0) {
     die("<div class='bg-red-500 text-white p-3 rounded-md'>Error: Tidak ada ID peserta didik yang ditemukan.</div>");
 }
 
-$message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fields = ['nama_ayah', 'tahun_lahir_ayah', 'nik_ayah', 'pekerjaan_ayah', 'pendidikan_ayah', 'penghasilan_ayah',
                'nama_ibu', 'tahun_lahir_ibu', 'nik_ibu', 'pekerjaan_ibu', 'pendidikan_ibu', 'penghasilan_ibu'];
@@ -42,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             );
 
             if ($stmt->execute()) {
-                $message = "<div class='bg-green-500 text-white p-3 rounded-md'>Data orang tua berhasil disimpan!</div>";
+                header("Location: data_periodik.php");
+                exit();
             } else {
                 $message = "<div class='bg-red-500 text-white p-3 rounded-md'>Gagal menyimpan data: " . $stmt->error . "</div>";
             }
@@ -64,8 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body class="p-8 bg-gray-100 flex justify-center items-center min-h-screen">
     <div class="max-w-2xl w-full bg-white p-8 rounded-lg shadow-lg">
-        <h2 class="text-3xl font-bold mb-6 text-center text-gray-700">Form Data Orang Tua</h2>
-        <?php echo $message; ?>
+        <h2 class="text-3xl font-bold mb-6 text-center text-gray-700">Data Orang Tua</h2>
+        <?php echo $message ?? ''; ?>
         <form method="POST" action="" class="space-y-4">
             <div class="grid grid-cols-2 gap-4">
                 <?php 
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ?>
             </div>
             <div class="flex justify-center mt-4">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition duration-300">Simpan</button>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition duration-300">Selanjutnya ⏩</button>
             </div>
         </form>
     </div>

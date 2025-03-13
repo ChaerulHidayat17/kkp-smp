@@ -25,7 +25,10 @@ $result = mysqli_query($conn, $query);
                         <th class="p-3 text-left">Nama Lengkap</th>
                         <th class="p-3 text-center">NISN</th>
                         <th class="p-3 text-center">Jenis Kelamin</th>
-                        <th class="p-3 text-center">Agama</th>
+                        <th class="p-3 text-center">Tempat, Tanggal Lahir</th>
+                        <th class="p-3 text-center">Asal Sekolah</th>
+                        <th class="p-3 text-center">Alamat</th>
+                        <th class="p-3 text-center">No HP</th>
                         <th class="p-3 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -36,7 +39,10 @@ $result = mysqli_query($conn, $query);
                         <td class="p-3"><?= htmlspecialchars($row['nama_lengkap']); ?></td>
                         <td class="p-3 text-center"><?= htmlspecialchars($row['nisn']); ?></td>
                         <td class="p-3 text-center"><?= htmlspecialchars($row['jenis_kelamin']); ?></td>
-                        <td class="p-3 text-center"><?= htmlspecialchars($row['agama']); ?></td>
+                        <td class="p-3 text-center"><?= htmlspecialchars($row['tempat_lahir'] . ', ' . $row['tanggal_lahir']); ?></td>
+                        <td class="p-3 text-center"><?= htmlspecialchars($row['sekolah_asal']); ?></td>
+                        <td class="p-3 text-center"><?= htmlspecialchars($row['alamat']); ?></td>
+                        <td class="p-3 text-center"><?= htmlspecialchars($row['no_hp']); ?></td>
                         <td class="p-3 text-center">
                             <button onclick="openModal(<?= $row['id']; ?>)" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                                 Detail
@@ -60,7 +66,15 @@ $result = mysqli_query($conn, $query);
                                 <p><strong>Tempat, Tanggal Lahir:</strong> <?= htmlspecialchars($row['tempat_lahir'] . ', ' . $row['tanggal_lahir']); ?></p>
                                 <p><strong>Agama:</strong> <?= htmlspecialchars($row['agama']); ?></p>
                                 <p><strong>Alamat:</strong> <?= htmlspecialchars($row['alamat']); ?></p>
+                                <p><strong>Kelurahan:</strong> <?= htmlspecialchars($row['kelurahan']); ?></p>
+                                <p><strong>Kecamatan:</strong> <?= htmlspecialchars($row['kecamatan']); ?></p>
+                                <p><strong>Kabupaten:</strong> <?= htmlspecialchars($row['kabupaten']); ?></p>
+                                <p><strong>Provinsi:</strong> <?= htmlspecialchars($row['provinsi']); ?></p>
                                 <p><strong>Kode Pos:</strong> <?= htmlspecialchars($row['kode_pos']); ?></p>
+                                <p><strong>Alat Transportasi:</strong> <?= htmlspecialchars($row['alat_transportasi']); ?></p>
+                                <p><strong>No HP:</strong> <?= htmlspecialchars($row['no_hp']); ?></p>
+                                <p><strong>No KIP:</strong> <?= htmlspecialchars($row['no_kip']); ?></p>
+                                <p><strong>Nama KIP:</strong> <?= htmlspecialchars($row['nama_kip']); ?></p>
                             </div>
 
                             <div class="flex flex-wrap justify-between mt-6 gap-2">
@@ -92,5 +106,8 @@ $result = mysqli_query($conn, $query);
             document.getElementById("modal-" + id).classList.add("hidden");
         }
     </script>
+    <a href="export_excel.php" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-800">
+    Download Semua Data
+</a>
 </body>
 </html>
