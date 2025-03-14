@@ -37,23 +37,26 @@
             <a href="daftar/index.php" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-md w-full md:w-auto text-center hover:bg-green-700 transition">
                 SPMB
             </a>
-            <a href="nilai/data_nilai.php" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md w-full md:w-auto text-center hover:bg-blue-700 transition">
+            <a href="data_nilai/nilai.php" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md w-full md:w-auto text-center hover:bg-blue-700 transition">
                 Data Nilai
             </a>
-            <a href="data/data_akademik.php" class="bg-red-600 text-white px-6 py-3 rounded-lg shadow-md w-full md:w-auto text-center hover:bg-red-700 transition">
+            <a href="data_akademik/akademik.php" class="bg-red-600 text-white px-6 py-3 rounded-lg shadow-md w-full md:w-auto text-center hover:bg-red-700 transition">
                 Data Akademik
+            </a>
+            <a href="daftar/view.php" class="bg-yellow-600 text-white px-6 py-3 rounded-lg shadow-md w-full md:w-auto text-center hover:bg-yellow-700 transition">
+                Admin
             </a>
         </div>
 
-       <!-- Alamat & Email Sekolah -->
-<div class="mt-6 text-white-300 max-w-md mx-auto text-center leading-relaxed">
-    <p class="text-lg font-bold">Alamat:</p>
-    <p>Jl. Raya H. Bonin, Kp. Gili-Gili RT.01/05 Ds. Suakajadi Kec. Sukakarya Kab. Bekasi 17630</p>
-    
-    <p class="mt-2 text-lg font-bold text-white">Email:</p>
-    <p>smpibahrululumgili02@gmail.com</p>
-</div>
-
+        <!-- Alamat & Email Sekolah -->
+        <div class="mt-6 text-white-300 max-w-md mx-auto text-center leading-relaxed">
+            <p class="text-lg font-bold">Alamat:</p>
+            <p>Jl. Raya H. Bonin, Kp. Gili-Gili RT.01/05 Ds. Suakajadi Kec. Sukakarya Kab. Bekasi 17630</p>
+            
+            <p class="mt-2 text-lg font-bold text-white">Email:</p>
+            <p>smpibahrululumgili02@gmail.com</p>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="relative text-white text-center w-full py-4">

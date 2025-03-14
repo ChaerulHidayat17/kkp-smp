@@ -19,7 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES ('$peserta_id', '$tinggi_badan', '$jarak_tempuh_km', '$waktu_tempuh_menit', '$berat_badan', '$hobi', '$cita_cita', '$jumlah_saudara_kandung')";
 
     if ($conn->query($sql) === TRUE) {
-        $success_message = "Data berhasil disimpan!";
+        // Redirect ke halaman selesai.php setelah data berhasil disimpan
+        header("Location: selesai.php");
+        exit; // Menghentikan eksekusi lebih lanjut
     } else {
         $error_message = "Error: " . $conn->error;
     }
@@ -43,10 +45,6 @@ $pesertaResult = $conn->query($pesertaQuery);
 <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
     <h2 class="text-2xl font-bold mb-4 text-center">Form Data Tambahan Peserta</h2>
 
-    <?php if (isset($success_message)): ?>
-        <div class="bg-green-200 text-green-800 p-3 rounded mb-4"><?= $success_message; ?></div>
-    <?php endif; ?>
-    
     <?php if (isset($error_message)): ?>
         <div class="bg-red-200 text-red-800 p-3 rounded mb-4"><?= $error_message; ?></div>
     <?php endif; ?>

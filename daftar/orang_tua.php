@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             );
 
             if ($stmt->execute()) {
-                header("Location: data_periodik.php");
+                header("Location: wali.php");
                 exit();
             } else {
                 $message = "<div class='bg-red-500 text-white p-3 rounded-md'>Gagal menyimpan data: " . $stmt->error . "</div>";

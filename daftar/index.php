@@ -97,8 +97,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "kode_pos" => "Kode Pos",
                     "alat_transportasi" => "Alat Transportasi",
                     "no_hp" => "No HP",
-                    "no_kip" => "No KIP (Opsional)",
-                    "nama_kip" => "Nama KIP (Opsional)"
+                    "no_kip" => "No KIP (Jika Ada)",
+                    "nama_kip" => "Nama KIP (Jika Ada)"
                 ];
 
                 foreach ($fields as $name => $label) {

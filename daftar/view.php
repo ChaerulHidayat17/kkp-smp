@@ -1,5 +1,12 @@
 <?php
+session_start();
 include 'config.php';
+
+// Cek apakah admin sudah login
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header("Location: ../login.php");
+    exit;
+}
 
 // Query untuk mengambil data peserta didik
 $query = "SELECT * FROM peserta_didik";
@@ -44,7 +51,7 @@ $result = mysqli_query($conn, $query);
                         <td class="p-3 text-center"><?= htmlspecialchars($row['alamat']); ?></td>
                         <td class="p-3 text-center"><?= htmlspecialchars($row['no_hp']); ?></td>
                         <td class="p-3 text-center">
-                            <button onclick="openModal(<?= $row['id']; ?>)" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                            <button onclick="openModal(<?= $row['id']; ?>)" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700">
                                 Detail
                             </button>
                         </td>
@@ -86,9 +93,7 @@ $result = mysqli_query($conn, $query);
                                     Tutup
                                 </button>
 
-                                <a href="export_excel.php?id=<?= $row['id']; ?>" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                                    Download Excel
-                                </a>
+                            
                             </div>
                         </div>
                     </div>
@@ -106,8 +111,16 @@ $result = mysqli_query($conn, $query);
             document.getElementById("modal-" + id).classList.add("hidden");
         }
     </script>
-    <a href="export_excel.php" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-800">
+    <div class="mt-4">
+    <a href="export_excel.php" class="bg-green-600 text-white px-4  py-2 rounded-lg hover:bg-gren-800">
     Download Semua Data
 </a>
+</div>
+<div class="flex items-center mb-4 mt-4">
+    <a href="logout.php" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-800">
+        Logout
+    </a>
+</div>
+
 </body>
 </html>

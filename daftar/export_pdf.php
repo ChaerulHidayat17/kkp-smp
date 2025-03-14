@@ -155,7 +155,7 @@ $html = "
             <tr><th>Waktu Tempuh</th><td>" . cleanData($data_periodik['waktu_tempuh_menit'] ?? '-') . " menit</td></tr>
             <tr><th>Hobi</th><td>" . cleanData($data_periodik['hobi'] ?? '-') . "</td></tr>
             <tr><th>Cita Cita</th><td>" . cleanData($data_periodik['cita_cita'] ?? '-') . "</td></tr>
-            <tr><th>Cita Cita</th><td>" . cleanData($data_periodik['jumlah_saudara_kandung'] ?? '-') . "</td></tr>
+            <tr><th>Jumlah Saudara Kandung</th><td>" . cleanData($data_periodik['jumlah_saudara_kandung'] ?? '-') . "</td></tr>
         </table>
     </div>
 </body>
